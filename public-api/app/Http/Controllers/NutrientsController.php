@@ -13,12 +13,18 @@ class NutrientsController extends Controller
     public function __construct()
     {
         $this->privateApiUrl = env('PRIVATE_API_URL');
+        $this->errorMesage = 'Internal Error, please try again later';
+        $this->genericErrorStatusCode = 500;
     }
 
     public function show(int $id)
     {
         $response = Http::get("{$this->privateApiUrl}/nutrientsDetails/{$id}");
-        return $response->json();
+        if ($response->ok()) {
+            return $response->json();
+        } else {
+            return response($this->errorMesage, $this->genericErrorStatusCode);
+        }
     }
 
 

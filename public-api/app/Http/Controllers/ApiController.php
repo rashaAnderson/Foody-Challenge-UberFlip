@@ -11,6 +11,8 @@ class ApiController extends Controller
     public function __construct()
     {
         $this->privateApiUrl = env('PRIVATE_API_URL');
+        $this->errorMesage = 'Internal Error, please try again later';
+        $this->genericErrorStatusCode = 500;
     }
 
     public function index()
@@ -23,6 +25,8 @@ class ApiController extends Controller
         $response = Http::get("{$this->privateApiUrl}/healthcheck");
         if ($response->ok()) {
             return response('ok', 200);
+        } else {
+            return response($this->errorMesage, $this->genericErrorStatusCode);
         }
     }
 }

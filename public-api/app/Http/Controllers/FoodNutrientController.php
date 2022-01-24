@@ -13,12 +13,18 @@ class FoodNutrientController extends Controller
     public function __construct()
     {
         $this->privateApiUrl = env('PRIVATE_API_URL');
+        $this->errorMesage = 'Internal Error, please try again later';
+        $this->genericErrorStatusCode = 500;
     }
 
     public function show(int $foodId)
     {
         $response = Http::get("{$this->privateApiUrl}/foodNutrients/{$foodId}");
-        return $response->json();
+        if ($response->ok()) {
+            return $response->json();
+        } else {
+            return response($this->errorMesage, $this->genericErrorStatusCode);
+        }
     }
 
     
@@ -33,7 +39,11 @@ class FoodNutrientController extends Controller
                 'limit' => $limit,
             ]
         ]);
-        return $response->json();
+        if ($response->ok()) {
+            return $response->json();
+        } else {
+            return response($this->errorMesage, $this->genericErrorStatusCode);
+        }
     }
 
     

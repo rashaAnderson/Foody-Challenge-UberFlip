@@ -13,6 +13,8 @@ class UserController extends Controller
     public function __construct()
     {
         $this->privateApiUrl = env('PRIVATE_API_URL');
+        $this->errorMesage = 'Internal Error, please try again later';
+        $this->genericErrorStatusCode = 500;
     }
 
     public function index(Request $request)
@@ -26,12 +28,20 @@ class UserController extends Controller
                 'limit' => $limit,
             ]
         ]);
-        return $response->json();
+         if ($response->ok()) {
+            return $response->json();
+        } else {
+            return response($this->errorMesage, $this->genericErrorStatusCode);
+        }
     }
 
     public function show(int $userId)
     {
         $response = Http::get("{$this->privateApiUrl}/users/{$userId}");
-        return $response->json();
+         if ($response->ok()) {
+            return $response->json();
+        } else {
+            return response($this->errorMesage, $this->genericErrorStatusCode);
+        }
     }
 }
