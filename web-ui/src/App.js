@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Home from './components/Home';
 import Users from './components/Users';
 import User from './components/User';
+import Nutrient from './components/Nutrient';
 import Error from './components/Error';
 import Navigation from './components/Navigation';
 
@@ -18,7 +19,9 @@ class App extends Component {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/users" component={Users} exact />
-            <Route path="/users/:userId" component={User} />
+            <Route path="/users/:userId" component={User} exact />
+            <Route path="/users/:userId" component={User} exact />
+            <Route path="/users/:userId/reports/most-consumed-nutrient" component={Nutrient} exact />
             <Route component={Error} />
           </Switch>
         </div>
